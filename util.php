@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors',1);
 
 function is_post(): bool
 {
@@ -19,7 +21,7 @@ function redirect(string $path): void
 
 function favourite_color(string $username): string
 {
-    $conn = mysqli_connect("localhost", "root", "", "adatok");
+    $conn = new mysqli("localhost", "loosap", "", "adatok");
     $statement = $conn->prepare("SELECT `Titkos` FROM `tabla` WHERE `Username` = ?");
     $statement->bind_param("s", $username);
     $statement->execute();
@@ -31,13 +33,22 @@ function favourite_color(string $username): string
 
 function color_data(string $db_color): string
 {
-    return match ($db_color) {
-        'piros' => '#e89292',
-        'zold' => '#b3f092',
-        'sarga' => '#f0d492',
-        'kek' => '#5f9ef5',
-        'fekete' => '#3b3b3b',
-        'feher' => '#f7f7f7',
-        default => '#ffffff',
-    };
+
+    switch ($db_color) {
+        case 'piros':
+            return '#e89292';
+        case 'zold':
+            return '#b3f092';
+        case 'sarga':
+            return '#f0d492';
+        case 'kek':
+            return '#5f9ef5';
+        case 'fekete':
+            return '#3b3b3b';
+        case 'feher':
+            return '#f7f7f7';
+        default:
+            return '#ffffff';
+    }
 }
+
